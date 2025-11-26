@@ -1,0 +1,35 @@
+/* src/styles/Navbar.css */
+.navbar {
+  background: white;
+  border-bottom: 1px solid #e6e9ef;
+  padding: 12px 0;
+  box-shadow: 0 1px 0 rgba(20,20,20,0.02);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand-link {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  text-decoration: none;
+}
+
+.nav-links a {
+  margin-left: 16px;
+  color: #374151;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+
+.nav-links a.active,
+.nav-links a:hover {
+  background: #eef2ff;
+  color: #1f4ed8;
+}
