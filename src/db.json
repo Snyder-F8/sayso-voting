@@ -1,0 +1,48 @@
+{
+  "voters": [
+    {
+      "id": "PF0098",
+      "name": "John Doe",
+      "email": "john.doe@company.com"
+    },
+    {
+      "id": "PF0102",
+      "name": "Mary Wanjiku",
+      "email": "mary.wanjiku@company.com"
+    }
+  ],
+
+  "policies": [
+    {
+      "id": 1,
+      "title": "Implement Remote Work Fridays",
+      "description": "Proposal to allow employees to work remotely every Friday.",
+      "createdBy": "Admin",
+      "createdAt": "2025-11-26T10:00:00Z"
+    },
+    {
+      "id": 2,
+      "title": "Update Company Dress Code",
+      "description": "Proposal to adjust dress standards to allow smart casual on weekdays.",
+      "createdBy": "Admin",
+      "createdAt": "2025-11-26T10:10:00Z"
+    }
+  ],
+
+  "votes": [
+    {
+      "id": 1,
+      "policyId": 1,
+      "voterId": "PF0098",
+      "vote": "yes",
+      "votedAt": "2025-11-26T12:30:00Z"
+    },
+    {
+      "id": 2,
+      "policyId": 2,
+      "voterId": "PF0102",
+      "vote": "no",
+      "votedAt": "2025-11-26T12:32:00Z"
+    }
+  ]
+}
