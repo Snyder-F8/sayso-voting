@@ -68,4 +68,23 @@ export const api = {
     if (!res.ok) throw new Error("Failed to create voter");
     return res.json();
   },
+
+  addVoteToPolicy: async (policyId, voterId, vote) => {
+    const voteObj = {
+      policyId,
+      voterId,
+      vote,
+      votedAt: new Date().toISOString(),
+    };
+
+    const res = await fetch(`${BASE_URL}/votes`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(voteObj),
+    });
+
+    if (!res.ok) throw new Error("Failed to add vote");
+    return res.json();
+  },
+
 };
