@@ -11,38 +11,78 @@
       "email": "mary.wanjiku@company.com"
     }
   ],
-
   "policies": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Implement Remote Work Fridays",
       "description": "Proposal to allow employees to work remotely every Friday.",
       "createdBy": "Admin",
       "createdAt": "2025-11-26T10:00:00Z"
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "Update Company Dress Code",
       "description": "Proposal to adjust dress standards to allow smart casual on weekdays.",
       "createdBy": "Admin",
       "createdAt": "2025-11-26T10:10:00Z"
-    }
-  ],
-
-  "votes": [
-    {
-      "id": 1,
-      "policyId": 1,
-      "voterId": "PF0098",
-      "vote": "yes",
-      "votedAt": "2025-11-26T12:30:00Z"
     },
     {
-      "id": 2,
-      "policyId": 2,
-      "voterId": "PF0102",
+      "id": "997a",
+      "title": "Reduce Working Days",
+      "description": "Reduce working days from five to four days: Monday to Thursday",
+      "createdBy": "Admin",
+      "createdAt": "2025-11-26T17:01:33.995Z"
+    }
+  ],
+  "votes": [
+    {
+      "id": "4424",
+      "policyId": "997a",
+      "voterId": "vs9cw",
+      "vote": "yes",
+      "votedAt": "2025-11-26T17:43:10.020Z"
+    },
+    {
+      "id": "60f9",
+      "policyId": "997a",
+      "voterId": "ojfzs",
       "vote": "no",
-      "votedAt": "2025-11-26T12:32:00Z"
+      "votedAt": "2025-11-26T17:55:12.646Z"
+    },
+    {
+      "id": "0e23",
+      "policyId": "997a",
+      "voterId": "xf8f0f",
+      "vote": "no",
+      "votedAt": "2025-11-26T17:57:08.038Z"
+    },
+    {
+      "id": "e1f5",
+      "policyId": "2",
+      "voterId": "12e9h",
+      "vote": "yes",
+      "votedAt": "2025-11-26T17:57:49.647Z"
+    },
+    {
+      "id": "5a39",
+      "policyId": "2",
+      "voterId": "65lfw",
+      "vote": "yes",
+      "votedAt": "2025-11-26T17:57:54.091Z"
+    },
+    {
+      "id": "ee11",
+      "policyId": "1",
+      "voterId": "2qyr9",
+      "vote": "yes",
+      "votedAt": "2025-11-26T17:58:38.100Z"
+    },
+    {
+      "id": "892b",
+      "policyId": "1",
+      "voterId": "5jt65",
+      "vote": "no",
+      "votedAt": "2025-11-26T17:59:37.128Z"
     }
   ]
 }
