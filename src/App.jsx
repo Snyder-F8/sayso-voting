@@ -1,4 +1,9 @@
 import React from "react";
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+//import Home from "./pages/Home";
+import VotePage from "./pages/VotePage";
+
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 // import Home from "./pages/Home";
@@ -11,6 +16,9 @@ import PolicyDetails from "./pages/PolicyDetails.jsx";
 export default function App() {
   return (
     <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<VotePage />} />
+      </Routes>
       <div className="app-container">
         <Navbar />
         <main className="main-content">

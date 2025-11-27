@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/VoteButton.css";
 
-function VoteButton({ label, color, onVote }) {
+export default function VoteButton({ label, onVote, color = "#4CAF50" }) {
   return (
     <button
       className="vote-button"
@@ -12,5 +12,3 @@ function VoteButton({ label, color, onVote }) {
     </button>
   );
 }
-
-export default VoteButton;

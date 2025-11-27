@@ -1,11 +1,9 @@
 .vote-page {
-  max-width: 750px;
-  margin: auto;
-  padding: 20px;
+  padding: 30px;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
 }
-
-.vote-buttons {
-  display: flex;
-  justify-content: center;
-  margin: 25px 0;
+.vote-page .buttons {
+  margin-top: 20px;
 }
