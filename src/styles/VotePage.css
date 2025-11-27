@@ -1,0 +1,9 @@
+.vote-page {
+  padding: 30px;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+.vote-page .buttons {
+  margin-top: 20px;
+}
