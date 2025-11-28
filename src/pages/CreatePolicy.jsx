@@ -120,7 +120,7 @@ export default function CreatePolicy() {
             <button
               type="button"
               onClick={handleReset}
-              className="bg-gray-300 text-gray-800 py-3 px-6 rounded-xl hover:bg-gray-400 transition"
+              className="bg-gray-500 text-white py-3 px-6 rounded-xl font-medium hover:bg-gray-600 transition"
             >
               Reset
             </button>
