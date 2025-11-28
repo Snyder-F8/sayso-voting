@@ -1,35 +1,107 @@
-/* src/styles/CreatePolicy.css */
+/* Main container for the Create Policy card */
 .create-policy {
   background: white;
-  padding: 22px;
-  border-radius: 10px;
-  box-shadow: 0 6px 18px rgba(19, 24, 41, 0.06);
-  margin-top: 20px;
+  padding: 32px;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(19, 24, 41, 0.08);
+  max-width: 650px;
+  margin: 40px auto;
+  transition: 0.3s ease;
 }
 
+/* Form labels */
 .create-form label {
   display: block;
-  margin-bottom: 12px;
-}
-
-.create-form input[type="text"],
-.create-form textarea {
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid #e6e9ef;
-  background: #fff;
-  font-size: 14px;
-  margin-top: 6px;
-}
-
-.label-text {
+  margin-bottom: 10px;
   font-weight: 600;
   color: #111827;
 }
 
+/* Input + Textarea styles */
+.create-form input[type="text"],
+.create-form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #d2d6df;
+  background: #ffffff;
+  font-size: 15px;
+  margin-top: 6px;
+  transition: border 0.2s ease;
+}
+
+.create-form input[type="text"]:focus,
+.create-form textarea:focus {
+  border-color: #2563eb;
+  outline: none;
+}
+
+/* Submit + Reset buttons container */
 .form-actions {
-  margin-top: 16px;
+  margin-top: 22px;
   display: flex;
-  gap: 10px;
+  gap: 14px;
+}
+
+/* Submit button */
+.btn-submit {
+  background: #2563eb;
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  transition: 0.25s;
+  cursor: pointer;
+}
+
+.btn-submit:hover {
+  background: #1d4ed8;
+}
+
+.btn-submit:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Reset button */
+.btn-reset {
+  background: #e5e7eb;
+  color: #374151;
+  padding: 12px 28px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 500;
+  transition: 0.25s;
+  cursor: pointer;
+}
+
+.btn-reset:hover {
+  background: #d1d5db;
+}
+
+/* Success Toast */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 25px;
+  background: #16a34a;
+  color: white;
+  padding: 14px 22px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  font-weight: 600;
+  animation: fadeSlideIn 0.4s ease;
+}
+
+/* Toast animation */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
