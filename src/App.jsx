@@ -7,6 +7,8 @@ import PolicyList from "./pages/PolicyList";
 import VotePage from "./pages/VotePage";
 import CreatePolicy from "./pages/CreatePolicy";
 import PolicyDetails from "./pages/PolicyDetails.jsx";
+import Home from "./pages/Home";
+
 
 import "./styles/App.css";
 
@@ -18,7 +20,7 @@ export default function App() {
 
         <main className="main-content">
           <Routes>
-            <Route path="/" element={<VotePage />} />
+            <Route path="/" element={<Home />} />
             <Route path="/policies" element={<PolicyList />} />
             <Route path="/policies/:id" element={<PolicyDetails />} />
             <Route path="/vote/:id" element={<VotePage />} />
