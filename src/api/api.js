@@ -1,8 +1,11 @@
 // src/api/api.js
+
 const BASE_URL = "http://localhost:3000";
 
 export const api = {
-  // Policies
+  /* ============================================================
+   * POLICIES
+   * ============================================================ */
   getPolicies: async () => {
     const res = await fetch(`${BASE_URL}/policies`);
     if (!res.ok) throw new Error("Failed to fetch policies");
@@ -21,11 +24,14 @@ export const api = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(policy),
     });
+
     if (!res.ok) throw new Error("Failed to create policy");
     return res.json();
   },
 
-  // Votes
+  /* ============================================================
+   * VOTES
+   * ============================================================ */
   getVotesForPolicy: async (policyId) => {
     const res = await fetch(`${BASE_URL}/votes?policyId=${policyId}`);
     if (!res.ok) throw new Error("Failed to fetch votes");
@@ -48,27 +54,14 @@ export const api = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(voteObj),
     });
+
     if (!res.ok) throw new Error("Failed to submit vote");
     return res.json();
   },
 
-  // Voters (optional)
-  getVoters: async () => {
-    const res = await fetch(`${BASE_URL}/voters`);
-    if (!res.ok) throw new Error("Failed to fetch voters");
-    return res.json();
-  },
-
-  createVoter: async (voter) => {
-    const res = await fetch(`${BASE_URL}/voters`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(voter),
-    });
-    if (!res.ok) throw new Error("Failed to create voter");
-    return res.json();
-  },
-
+  /**
+   * Add vote to policy – used by VotePage
+   */
   addVoteToPolicy: async (policyId, voterId, vote) => {
     const voteObj = {
       policyId,
@@ -87,4 +80,23 @@ export const api = {
     return res.json();
   },
 
+  /* ============================================================
+   * VOTERS (Optional)
+   * ============================================================ */
+  getVoters: async () => {
+    const res = await fetch(`${BASE_URL}/voters`);
+    if (!res.ok) throw new Error("Failed to fetch voters");
+    return res.json();
+  },
+
+  createVoter: async (voter) => {
+    const res = await fetch(`${BASE_URL}/voters`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(voter),
+    });
+
+    if (!res.ok) throw new Error("Failed to create voter");
+    return res.json();
+  },
 };
