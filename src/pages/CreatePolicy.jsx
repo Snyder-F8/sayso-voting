@@ -1,94 +1,85 @@
-// src/pages/CreatePolicy.jsx
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { api } from "../api/api";
-import "../styles/CreatePolicy.css";
+import { useNavigate } from "react-router-dom";
 
 export default function CreatePolicy() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [saving, setSaving] = useState(false);
   const navigate = useNavigate();
 
-  const resetForm = () => {
-    setTitle("");
-    setDescription("");
+  const [form, setForm] = useState({
+    title: "",
+    description: "",
+    createdBy: "",
+  });
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic validation
-    if (!title.trim() || !description.trim()) {
-      alert("Please provide both title and description.");
-      return;
-    }
-
-    const newPolicy = {
-      title: title.trim(),
-      description: description.trim(),
-      createdBy: "Admin",
+    await api.createPolicy({
+      ...form,
       createdAt: new Date().toISOString(),
-    };
+    });
 
-    try {
-      setSaving(true);
-      await api.createPolicy(newPolicy);
-      resetForm();
-      // After creation, navigate to policies list
-      navigate("/policies");
-    } catch (err) {
-      console.error(err);
-      alert("Could not create policy. Try again.");
-    } finally {
-      setSaving(false);
-    }
+    navigate("/policies");
   };
 
   return (
-    <div className="create-policy container">
-      <h2>Create New Policy</h2>
+    <div className="min-h-screen bg-gray-100 flex justify-center pt-28 px-6">
+      <div className="bg-white p-10 rounded-2xl shadow-xl w-full max-w-2xl">
+        <h1 className="text-3xl font-bold mb-6">Create New Policy</h1>
 
-      <form className="create-form" onSubmit={handleSubmit}>
-        <label>
-          <span className="label-text">Policy Title</span>
-          <input
-            type="text"
-            placeholder="Enter policy title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            maxLength={150}
-            required
-          />
-        </label>
+        <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+          {/* Title */}
+          <div>
+            <label className="block font-medium mb-1">Policy Title</label>
+            <input
+              type="text"
+              name="title"
+              value={form.title}
+              onChange={handleChange}
+              className="w-full p-3 border rounded-xl"
+              required
+            />
+          </div>
 
-        <label>
-          <span className="label-text">Description</span>
-          <textarea
-            placeholder="Describe the policy..."
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            rows={6}
-            required
-          />
-        </label>
+          {/* Description */}
+          <div>
+            <label className="block font-medium mb-1">Description</label>
+            <textarea
+              name="description"
+              value={form.description}
+              onChange={handleChange}
+              rows="5"
+              className="w-full p-3 border rounded-xl"
+              required
+            />
+          </div>
 
-        <div className="form-actions">
-          <button type="submit" className="btn primary" disabled={saving}>
-            {saving ? "Creating..." : "Create Policy"}
-          </button>
+          {/* Created By */}
+          <div>
+            <label className="block font-medium mb-1">Created By</label>
+            <input
+              type="text"
+              name="createdBy"
+              value={form.createdBy}
+              onChange={handleChange}
+              className="w-full p-3 border rounded-xl"
+              required
+            />
+          </div>
+
+          {/* Submit */}
           <button
-            type="button"
-            className="btn secondary"
-            onClick={() => {
-              setTitle("");
-              setDescription("");
-            }}
+            type="submit"
+            className="bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition"
           >
-            Reset
+            Submit Policy
           </button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }

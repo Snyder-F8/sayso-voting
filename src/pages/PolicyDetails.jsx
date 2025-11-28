@@ -1,91 +1,100 @@
-import {useEffect, useState} from "react";
-import {api} from "../api/api.js";
+import { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import { api } from "../api/api";
 
-import { useParams } from "react-router-dom";
-export default function PolicyDetails(){
-    const { id } = useParams();
+export default function PolicyDetails() {
+  const { id } = useParams();
+  const [policy, setPolicy] = useState(null);
+  const [votes, setVotes] = useState([]);
 
+  useEffect(() => {
+    api.getPolicyById(id).then(setPolicy);
+    api.getVotesForPolicy(id).then(setVotes);
+  }, [id]);
 
-
-    ;
-    const [votes, setVotes] = useState([]);
-    const [policy, setPolicy] = useState(null);
-
-
-
-
-
-    useEffect(() => {
-        api.getPolicyById(id).then(setPolicy);
-        api.getVotesForPolicy(id).then(setVotes);
-    }, [])
-
-    if (!policy) {return }
-    // console.log("policy ID", policy.id);
-    // console.log("policies", policies);
-    // console.log("votes", votes);
-
-    // const policy = policies.find((p) => p.id === policyId);
-    const policyVotes = votes.filter((v) => v.policyId === policy.id);
-
-
-    const yesVotes = policyVotes.filter((v) => v.vote === "yes").length;
-    const noVotes = policyVotes.filter((v) => v.vote === "no").length;
-
-
-    if (!policy) return <div className="p-6 text-center">Policy not found.</div>;
-
-
+  if (!policy) {
     return (
-        <div className="min-h-screen bg-gray-100 p-6 flex flex-col items-center w-full">
-            <div className="w-full max-w-3xl rounded-2xl shadow-lg p-6 bg-white">
-                <div>
-                    <h1 className="text-3xl font-bold mb-4">{policy.title}</h1>
+      <div className="min-h-screen flex items-center justify-center text-lg">
+        Loading policy...
+      </div>
+    );
+  }
 
+  const yesVotes = votes.filter((v) => v.vote === "yes").length;
+  const noVotes = votes.filter((v) => v.vote === "no").length;
 
-                    <p className="text-gray-700 text-lg leading-relaxed mb-4">
-                        {policy.description}
-                    </p>
+  return (
+    <div className="min-h-screen bg-gray-100 p-6 flex justify-center">
+      <div className="bg-white w-full max-w-3xl p-8 rounded-2xl shadow-xl">
 
+        {/* Title */}
+        <h1 className="text-4xl font-bold mb-4">{policy.title}</h1>
 
-                    <div className="text-sm text-gray-500 mb-4">
-                        <p>Created By: {policy.createdBy}</p>
-                        <p>Created At: {new Date(policy.createdAt).toLocaleString()}</p>
-                    </div>
+        {/* Description */}
+        <p className="text-gray-700 text-lg leading-relaxed mb-6">
+          {policy.description}
+        </p>
 
-
-                    <div className="border-t pt-4 mt-4">
-                        <h2 className="text-xl font-semibold mb-2">Vote Summary</h2>
-                        <div className="flex gap-6 text-lg">
-                            <p className="font-medium">Yes: {yesVotes}</p>
-                            <p className="font-medium">No: {noVotes}</p>
-                            <p className="font-medium">Total Votes: {policyVotes.length}</p>
-                        </div>
-                    </div>
-                    <div className={'border-t pt-4 mt-4 w-full flex justify-center'}>
-                        <a href={`/vote/${policy.id}`} className={'bg-cyan-600 cursor-pointer w-20 h-8 flex items-center justify-center rounded-2xl'}>Vote </a>
-                    </div>
-
-
-                    <div className="border-t pt-4 mt-6">
-                        <h3 className="text-xl font-semibold mb-2">Voting Breakdown</h3>
-                        <div className="flex flex-col gap-3">
-                            {policyVotes.map((vote) => (
-                                <div
-                                    key={vote.id}
-                                    className="p-4 bg-gray-50 rounded-xl shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between"
-                                >
-                                    <p className="font-medium">{vote.voterId}</p>
-                                    <p className="capitalize">Vote: {vote.vote}</p>
-                                    <p className="text-sm text-gray-500">
-                                        {new Date(vote.votedAt).toLocaleString()}
-                                    </p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </div>
+        {/* Metadata */}
+        <div className="text-sm text-gray-600 mb-6 space-y-1">
+          <p><strong>Created By:</strong> {policy.createdBy}</p>
+          <p>{new Date(policy.createdAt).toLocaleString()}</p>
         </div>
-    )
+
+        {/* Vote Summary */}
+<div className="border-t pt-6">
+  <h2 className="text-2xl font-semibold mb-4">Vote Summary</h2>
+
+  {/* Progress */}
+  <div className="w-full bg-gray-200 rounded-full h-4 mb-4 overflow-hidden">
+    <div
+      className="bg-green-500 h-4"
+      style={{ width: `${(yesVotes / (yesVotes + noVotes || 1)) * 100}%` }}
+    ></div>
+  </div>
+
+  <div className="flex gap-10 text-lg font-medium">
+    <p>👍 Yes: {yesVotes}</p>
+    <p>👎 No: {noVotes}</p>
+    <p>📝 Total: {votes.length}</p>
+  </div>
+</div>
+
+
+        {/* Vote Button */}
+        <div className="border-t pt-6 mt-6 flex justify-center">
+          <Link
+            to={`/vote/${policy.id}`}
+            className="bg-blue-600 text-white px-6 py-3 rounded-xl shadow-md hover:bg-blue-700 transition"
+          >
+            Vote Now
+          </Link>
+        </div>
+
+        {/* Voter Breakdown */}
+        <div className="border-t pt-6 mt-6">
+          <h3 className="text-2xl font-semibold mb-4">Voting Breakdown</h3>
+
+          <div className="flex flex-col gap-4">
+            {votes.map((vote) => (
+              <div
+                key={vote.id}
+                className="p-4 bg-gray-50 rounded-xl shadow-sm flex justify-between items-center"
+              >
+                <p className="font-medium">{vote.voterId}</p>
+                <p className="capitalize">Vote: {vote.vote}</p>
+                <p className="text-sm text-gray-500">
+                  {new Date(vote.votedAt).toLocaleString()}
+                </p>
+              </div>
+            ))}
+
+            {votes.length === 0 && (
+              <p className="text-center text-gray-500">No votes yet.</p>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
