@@ -28,19 +28,26 @@ export default function CreatePolicy() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await api.createPolicy({
-      ...form,
-      createdAt: new Date().toISOString(),
-    });
+    try {
+      await api.createPolicy({
+        ...form,
+        createdAt: new Date().toISOString(),
+      });
 
-    // Show toast
-    setShowToast(true);
+      // Show toast
+      setShowToast(true);
 
-    // Hide toast after 2 seconds and then redirect
-    setTimeout(() => {
-      setShowToast(false);
-      navigate("/policies");
-    }, 1500);
+      // Hide toast after 1.5 seconds and redirect to policies
+      setTimeout(() => {
+        setShowToast(false);
+        navigate("/policies");
+      }, 1500);
+
+      // Reset form
+      handleReset();
+    } catch (err) {
+      console.error("Error creating policy:", err);
+    }
   };
 
   const isFormValid =
@@ -58,7 +65,7 @@ export default function CreatePolicy() {
       )}
 
       <div className="bg-white p-10 rounded-2xl shadow-xl w-full max-w-2xl">
-        <h1 className="text-3xl font-bold mb-6">Create New Policy</h1>
+        <h1 className="text-3xl font-bold mb-6 text-center">Create New Policy</h1>
 
         <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
           {/* Title */}
@@ -69,8 +76,8 @@ export default function CreatePolicy() {
               name="title"
               value={form.title}
               onChange={handleChange}
-              className="w-full p-3 border rounded-xl"
-              required
+              className="w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter policy title"
             />
           </div>
 
@@ -82,8 +89,8 @@ export default function CreatePolicy() {
               value={form.description}
               onChange={handleChange}
               rows="5"
-              className="w-full p-3 border rounded-xl"
-              required
+              className="w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter policy description"
             />
           </div>
 
@@ -95,8 +102,8 @@ export default function CreatePolicy() {
               name="createdBy"
               value={form.createdBy}
               onChange={handleChange}
-              className="w-full p-3 border rounded-xl"
-              required
+              className="w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Your name"
             />
           </div>
 
@@ -106,12 +113,10 @@ export default function CreatePolicy() {
             <button
               type="submit"
               disabled={!isFormValid}
-              className={`py-3 px-6 rounded-xl text-white transition 
-                ${
-                  isFormValid
-                    ? "bg-blue-600 hover:bg-blue-700"
-                    : "bg-gray-400 cursor-not-allowed"
-                }`}
+              className={`py-3 px-6 rounded-xl text-white font-medium transition
+                ${isFormValid
+                  ? "bg-blue-600 hover:bg-blue-700"
+                  : "bg-blue-300 cursor-not-allowed"}`}
             >
               Submit Policy
             </button>
