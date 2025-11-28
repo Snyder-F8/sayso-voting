@@ -11,8 +11,18 @@ export default function CreatePolicy() {
     createdBy: "",
   });
 
+  const [showToast, setShowToast] = useState(false);
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleReset = () => {
+    setForm({
+      title: "",
+      description: "",
+      createdBy: "",
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -23,11 +33,30 @@ export default function CreatePolicy() {
       createdAt: new Date().toISOString(),
     });
 
-    navigate("/policies");
+    // Show toast
+    setShowToast(true);
+
+    // Hide toast after 2 seconds and then redirect
+    setTimeout(() => {
+      setShowToast(false);
+      navigate("/policies");
+    }, 1500);
   };
 
+  const isFormValid =
+    form.title.trim() !== "" &&
+    form.description.trim() !== "" &&
+    form.createdBy.trim() !== "";
+
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center pt-28 px-6">
+    <div className="min-h-screen bg-gray-100 flex justify-center pt-28 px-6 relative">
+      {/* Toast Notification */}
+      {showToast && (
+        <div className="fixed top-6 right-6 bg-green-600 text-white px-5 py-3 rounded-xl shadow-lg animate-pulse">
+          Policy created successfully!
+        </div>
+      )}
+
       <div className="bg-white p-10 rounded-2xl shadow-xl w-full max-w-2xl">
         <h1 className="text-3xl font-bold mb-6">Create New Policy</h1>
 
@@ -71,13 +100,31 @@ export default function CreatePolicy() {
             />
           </div>
 
-          {/* Submit */}
-          <button
-            type="submit"
-            className="bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition"
-          >
-            Submit Policy
-          </button>
+          {/* Buttons */}
+          <div className="flex justify-between mt-4">
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={!isFormValid}
+              className={`py-3 px-6 rounded-xl text-white transition 
+                ${
+                  isFormValid
+                    ? "bg-blue-600 hover:bg-blue-700"
+                    : "bg-gray-400 cursor-not-allowed"
+                }`}
+            >
+              Submit Policy
+            </button>
+
+            {/* Reset */}
+            <button
+              type="button"
+              onClick={handleReset}
+              className="bg-gray-300 text-gray-800 py-3 px-6 rounded-xl hover:bg-gray-400 transition"
+            >
+              Reset
+            </button>
+          </div>
         </form>
       </div>
     </div>
