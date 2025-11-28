@@ -1,3 +1,4 @@
+// src/pages/PolicyDetails.jsx
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { api } from "../api/api";
@@ -7,6 +8,7 @@ export default function PolicyDetails() {
   const [policy, setPolicy] = useState(null);
   const [votes, setVotes] = useState([]);
 
+  // Fetch policy & votes
   useEffect(() => {
     api.getPolicyById(id).then(setPolicy);
     api.getVotesForPolicy(id).then(setVotes);
@@ -20,8 +22,11 @@ export default function PolicyDetails() {
     );
   }
 
+  // Vote statistics
   const yesVotes = votes.filter((v) => v.vote === "yes").length;
   const noVotes = votes.filter((v) => v.vote === "no").length;
+  const totalVotes = yesVotes + noVotes;
+  const yesPercentage = ((yesVotes / (totalVotes || 1)) * 100).toFixed(0);
 
   return (
     <div className="min-h-screen bg-gray-100 p-6 flex justify-center">
@@ -37,34 +42,36 @@ export default function PolicyDetails() {
 
         {/* Metadata */}
         <div className="text-sm text-gray-600 mb-6 space-y-1">
-          <p><strong>Created By:</strong> {policy.createdBy}</p>
+          <p>
+            <strong>Created By:</strong> {policy.createdBy}
+          </p>
           <p>{new Date(policy.createdAt).toLocaleString()}</p>
         </div>
 
         {/* Vote Summary */}
-<div className="border-t pt-6">
-  <h2 className="text-2xl font-semibold mb-4">Vote Summary</h2>
+        <div className="border-t pt-6">
+          <h2 className="text-2xl font-semibold mb-4">Vote Summary</h2>
 
-  {/* Progress */}
-  <div className="w-full bg-gray-200 rounded-full h-4 mb-4 overflow-hidden">
-    <div
-      className="bg-green-500 h-4"
-      style={{ width: `${(yesVotes / (yesVotes + noVotes || 1)) * 100}%` }}
-    ></div>
-  </div>
+          {/* Progress Bar */}
+          <div className="w-full bg-gray-200 rounded-full h-4 mb-4 overflow-hidden">
+            <div
+              className="bg-green-500 h-4 transition-all duration-500"
+              style={{ width: `${yesPercentage}%` }}
+            ></div>
+          </div>
 
-  <div className="flex gap-10 text-lg font-medium">
-    <p>👍 Yes: {yesVotes}</p>
-    <p>👎 No: {noVotes}</p>
-    <p>📝 Total: {votes.length}</p>
-  </div>
-</div>
-
+          {/* Vote Numbers */}
+          <div className="flex gap-10 text-lg font-medium">
+            <p>👍 Yes: {yesVotes}</p>
+            <p>👎 No: {noVotes}</p>
+            <p>📝 Total: {votes.length}</p>
+          </div>
+        </div>
 
         {/* Vote Button */}
         <div className="border-t pt-6 mt-6 flex justify-center">
           <Link
-            to={`/vote/${policy.id}`}
+            to={`/policies/${policy.id}/vote`}
             className="bg-blue-600 text-white px-6 py-3 rounded-xl shadow-md hover:bg-blue-700 transition"
           >
             Vote Now
@@ -94,6 +101,7 @@ export default function PolicyDetails() {
             )}
           </div>
         </div>
+
       </div>
     </div>
   );

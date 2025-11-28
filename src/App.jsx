@@ -23,7 +23,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/policies" element={<PolicyList />} />
             <Route path="/policies/:id" element={<PolicyDetails />} />
-            <Route path="/vote/:id" element={<VotePage />} />
+            <Route path="/policies/:id/vote" element={<VotePage />} />
             <Route path="/create" element={<CreatePolicy />} />
 
             {/* Fallback: redirect unknown URLs to home */}
