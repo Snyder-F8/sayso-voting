@@ -16,7 +16,7 @@ export default function PolicyDetails() {
 
   if (!policy) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-lg">
+      <div className="min-h-screen bg-gray-100 p-8 flex flex-col items-center pt-28">
         Loading policy...
       </div>
     );
@@ -29,9 +29,8 @@ export default function PolicyDetails() {
   const yesPercentage = ((yesVotes / (totalVotes || 1)) * 100).toFixed(0);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6 flex justify-center">
-      <div className="bg-white w-full max-w-3xl p-8 rounded-2xl shadow-xl">
-
+  <div className="min-h-screen bg-gray-100 p-8 flex flex-col items-center pt-28">
+    <div className="bg-white w-full max-w-3xl p-8 rounded-2xl shadow-xl">
         {/* Title */}
         <h1 className="text-4xl font-bold mb-4">{policy.title}</h1>
 

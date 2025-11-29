@@ -40,7 +40,7 @@ export default function PolicyList() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 px-8 pt-32 flex flex-col items-center">
+    <div className="min-h-screen bg-gray-100 p-8 flex flex-col items-center pt-28">
       <h1 className="text-4xl font-bold mb-10 text-center">Company Policies</h1>
 
       {/* Policies Grid */}

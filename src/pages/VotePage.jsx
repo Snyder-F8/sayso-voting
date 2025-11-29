@@ -42,9 +42,9 @@ export default function VotePage() {
   if (!policy) return <h2>Loading policy...</h2>;
 
   return (
-    <div className="vote-page">
-      <h2>{policy.title}</h2>
-      <p>{policy.description}</p>
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center pt-28 px-6">
+      <h2 className="text-3xl font-bold mb-4">{policy.title}</h2>
+      <p className="text-gray-700 max-w-3xl text-center mb-8">{policy.description}</p>
 
       <ResultCard title={policy.title} yesVotes={yesVotes} noVotes={noVotes} />
 
