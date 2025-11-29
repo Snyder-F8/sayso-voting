@@ -40,8 +40,8 @@ export default function PolicyList() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8 flex flex-col items-center">
-      <h1 className="text-4xl font-bold mb-10">Company Policies</h1>
+    <div className="min-h-screen bg-gray-100 px-8 pt-32 flex flex-col items-center">
+      <h1 className="text-4xl font-bold mb-10 text-center">Company Policies</h1>
 
       {/* Policies Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 w-full max-w-6xl">
