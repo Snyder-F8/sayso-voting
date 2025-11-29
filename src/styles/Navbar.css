@@ -1,35 +1,68 @@
 /* src/styles/Navbar.css */
+
 .navbar {
   background: white;
   border-bottom: 1px solid #e6e9ef;
-  padding: 12px 0;
-  box-shadow: 0 1px 0 rgba(20,20,20,0.02);
+  padding: 14px 0;
+  box-shadow: 0 1px 0 rgba(20, 20, 20, 0.03);
+  position: sticky;
+  top: 0;
+  z-index: 50;
 }
 
 .nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+/* ==== BRAND TITLE / PAGE TITLE ==== */
 .brand-link {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
   color: #111827;
   text-decoration: none;
+  flex-shrink: 0; /* prevent shrinking on smaller screens */
+}
+
+/* ==== NAV LINKS (right side) ==== */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
 }
 
 .nav-links a {
-  margin-left: 16px;
   color: #374151;
   text-decoration: none;
   font-weight: 600;
-  padding: 6px 8px;
-  border-radius: 6px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  transition: 0.15s ease;
 }
 
 .nav-links a.active,
 .nav-links a:hover {
   background: #eef2ff;
   color: #1f4ed8;
+}
+
+/* ==== RESPONSIVE ==== */
+@media (max-width: 600px) {
+  .nav-inner {
+    padding: 0 16px;
+  }
+
+  .brand-link {
+    font-size: 20px;
+  }
+
+  .nav-links a {
+    font-size: 14px;
+    padding: 6px 8px;
+  }
 }

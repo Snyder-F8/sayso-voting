@@ -1,94 +1,137 @@
-// src/pages/CreatePolicy.jsx
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { api } from "../api/api";
-import "../styles/CreatePolicy.css";
+import { useNavigate } from "react-router-dom";
 
 export default function CreatePolicy() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [saving, setSaving] = useState(false);
   const navigate = useNavigate();
 
-  const resetForm = () => {
-    setTitle("");
-    setDescription("");
+  const [form, setForm] = useState({
+    title: "",
+    description: "",
+    createdBy: "",
+  });
+
+  const [showToast, setShowToast] = useState(false);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleReset = () => {
+    setForm({
+      title: "",
+      description: "",
+      createdBy: "",
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic validation
-    if (!title.trim() || !description.trim()) {
-      alert("Please provide both title and description.");
-      return;
-    }
-
-    const newPolicy = {
-      title: title.trim(),
-      description: description.trim(),
-      createdBy: "Admin",
-      createdAt: new Date().toISOString(),
-    };
-
     try {
-      setSaving(true);
-      await api.createPolicy(newPolicy);
-      resetForm();
-      // After creation, navigate to policies list
-      navigate("/policies");
+      await api.createPolicy({
+        ...form,
+        createdAt: new Date().toISOString(),
+      });
+
+      // Show toast
+      setShowToast(true);
+
+      // Hide toast after 1.5 seconds and redirect to policies
+      setTimeout(() => {
+        setShowToast(false);
+        navigate("/policies");
+      }, 1500);
+
+      // Reset form
+      handleReset();
     } catch (err) {
-      console.error(err);
-      alert("Could not create policy. Try again.");
-    } finally {
-      setSaving(false);
+      console.error("Error creating policy:", err);
     }
   };
 
+  const isFormValid =
+    form.title.trim() !== "" &&
+    form.description.trim() !== "" &&
+    form.createdBy.trim() !== "";
+
   return (
-    <div className="create-policy container">
-      <h2>Create New Policy</h2>
-
-      <form className="create-form" onSubmit={handleSubmit}>
-        <label>
-          <span className="label-text">Policy Title</span>
-          <input
-            type="text"
-            placeholder="Enter policy title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            maxLength={150}
-            required
-          />
-        </label>
-
-        <label>
-          <span className="label-text">Description</span>
-          <textarea
-            placeholder="Describe the policy..."
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            rows={6}
-            required
-          />
-        </label>
-
-        <div className="form-actions">
-          <button type="submit" className="btn primary" disabled={saving}>
-            {saving ? "Creating..." : "Create Policy"}
-          </button>
-          <button
-            type="button"
-            className="btn secondary"
-            onClick={() => {
-              setTitle("");
-              setDescription("");
-            }}
-          >
-            Reset
-          </button>
+    <div className="min-h-screen bg-gray-100 flex justify-center pt-28 px-6 relative">
+      {/* Toast Notification */}
+      {showToast && (
+        <div className="fixed top-6 right-6 bg-green-600 text-white px-5 py-3 rounded-xl shadow-lg animate-pulse">
+          Policy created successfully!
         </div>
-      </form>
+      )}
+
+      <div className="bg-white p-10 rounded-2xl shadow-xl w-full max-w-2xl">
+        <h1 className="text-3xl font-bold mb-6 text-center">Create New Policy</h1>
+
+        <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+          {/* Title */}
+          <div>
+            <label className="block font-medium mb-1">Policy Title</label>
+            <input
+              type="text"
+              name="title"
+              value={form.title}
+              onChange={handleChange}
+              className="w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter policy title"
+            />
+          </div>
+
+          {/* Description */}
+          <div>
+            <label className="block font-medium mb-1">Description</label>
+            <textarea
+              name="description"
+              value={form.description}
+              onChange={handleChange}
+              rows="5"
+              className="w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter policy description"
+            />
+          </div>
+
+          {/* Created By */}
+          <div>
+            <label className="block font-medium mb-1">Created By</label>
+            <input
+              type="text"
+              name="createdBy"
+              value={form.createdBy}
+              onChange={handleChange}
+              className="w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Your name"
+            />
+          </div>
+
+          {/* Buttons */}
+          <div className="flex justify-between mt-4">
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={!isFormValid}
+              className={`py-3 px-6 rounded-xl text-white font-medium transition
+                ${isFormValid
+                  ? "bg-blue-600 hover:bg-blue-700"
+                  : "bg-blue-300 cursor-not-allowed"}`}
+            >
+              Submit Policy
+            </button>
+
+            {/* Reset */}
+            <button
+              type="button"
+              onClick={handleReset}
+              className="bg-gray-500 text-white py-3 px-6 rounded-xl font-medium hover:bg-gray-600 transition"
+            >
+              Reset
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

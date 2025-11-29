@@ -1,63 +1,79 @@
 import { useEffect, useState } from "react";
 import { api } from "../api/api";
-
-
+import PolicyCard from "../components/PolicyCard";
 
 export default function PolicyList() {
   const [policies, setPolicies] = useState([]);
-
-  useEffect(() => {
-    api.getPolicies().then(setPolicies);
-  }, []);
-
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [page, setPage] = useState(1);
+
   const itemsPerPage = 6;
 
+  useEffect(() => {
+    api.getPolicies()
+      .then((res) => {
+        setPolicies(res); // no .data here
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setError("Failed to fetch policies. Please try again.");
+        setLoading(false);
+      });
+  }, []);
 
   const totalPages = Math.ceil(policies.length / itemsPerPage);
   const startIndex = (page - 1) * itemsPerPage;
   const currentPolicies = policies.slice(startIndex, startIndex + itemsPerPage);
 
+  if (loading) {
+    return <p className="text-center mt-10 text-gray-600">Loading policies...</p>;
+  }
+
+  if (error) {
+    return <p className="text-center mt-10 text-red-600">{error}</p>;
+  }
+
+  if (!policies.length) {
+    return <p className="text-center mt-10 text-gray-600">No policies available.</p>;
+  }
 
   return (
-      <div className="min-h-screen bg-gray-100 p-6 flex flex-col items-center gap-6">
-        <h1 className="text-3xl font-bold mb-4">Company Policies</h1>
+    <div className="min-h-screen bg-gray-100 p-8 flex flex-col items-center pt-28">
+      <h1 className="text-4xl font-bold mb-10 text-center">Company Policies</h1>
 
+      {/* Policies Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 w-full max-w-6xl">
+        {currentPolicies.map((policy) => (
+          <PolicyCard key={policy.id} policy={policy} />
+        ))}
+      </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 w-full max-w-5xl">
-          {currentPolicies.map((policy) => (
-              <a href={`/policies/${policy.id}`} key={policy.id} className="rounded-2xl shadow-md hover:shadow-lg transition p-4 cursor-pointer">
-                <div>
-                  <h2 className="text-xl font-semibold mb-2">{policy.title}</h2>
-                  <p className="text-gray-700 mb-4">{policy.description}</p>
-                  <p className="text-sm text-gray-500">Created By: {policy.createdBy}</p>
-                  <p className="text-sm text-gray-500">{new Date(policy.createdAt).toLocaleString()}</p>
-                </div>
-
-              </a>
-          ))}
-        </div>
-
-
-        <div className="flex items-center gap-4 mt-4">
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex items-center gap-4 mt-10">
           <button
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
-              disabled={page === 1}
-              className="rounded-2xl"
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={page === 1}
+            className="px-4 py-2 rounded-xl bg-gray-300 hover:bg-gray-400 disabled:bg-gray-200"
           >
             Previous
           </button>
+
           <span className="text-lg font-medium">
             Page {page} of {totalPages}
           </span>
+
           <button
-              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              disabled={page === totalPages}
-              className="rounded-2xl"
+            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+            disabled={page === totalPages}
+            className="px-4 py-2 rounded-xl bg-gray-300 hover:bg-gray-400 disabled:bg-gray-200"
           >
             Next
           </button>
         </div>
-      </div>
+      )}
+    </div>
   );
 }
