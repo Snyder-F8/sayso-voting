@@ -25,6 +25,13 @@
       "description": "Proposal to adjust dress standards to allow smart casual on weekdays.",
       "createdBy": "Admin",
       "createdAt": "2025-11-26T10:10:00Z"
+    },
+    {
+      "id": "836a",
+      "title": "Adjust Working Hours",
+      "description": "Working hours should be 9am-4pm",
+      "createdBy": "Human Resource",
+      "createdAt": "2025-11-29T05:24:52.145Z"
     }
   ],
   "votes": [
@@ -76,6 +83,13 @@
       "voterId": "5jt65",
       "vote": "no",
       "votedAt": "2025-11-26T17:59:37.128Z"
+    },
+    {
+      "id": "c1b3",
+      "policyId": "836a",
+      "voterId": "zce55",
+      "vote": "yes",
+      "votedAt": "2025-11-29T05:25:12.357Z"
     }
   ]
 }
