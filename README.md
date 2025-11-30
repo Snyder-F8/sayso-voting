@@ -30,7 +30,7 @@ SaySo Voting is a web application designed to facilitate the management of compa
 - Admin dashboard for managing policies and users
 
 ## Tech Stack
-- Frontend: React, Redux, Tailwind CSS
+- Frontend: React, Tailwind CSS
 - Backend: Node.js.
 - Mock API: JSON Server
 - Database: JSON file (for mock data)
